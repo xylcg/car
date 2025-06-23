@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}缴费 - {{ vehicle[1] }}{% endblock %}
+
+{% block content %}
+    <h2>缴费信息</h2>
+    
+    <div class="payment-info">
+        <p><strong>车牌号:</strong> {{ vehicle[1] }}</p>
+        <p><strong>入场时间:</strong> {{ record[2] }}</p>
+        <p><strong>出场时间:</strong> {{ record[3] }}</p>
+        <p><strong>停车时长:</strong> {{ record[4] }} 分钟</p>
+        <p class="fee"><strong>应缴费用:</strong> {{ record[5] }} 元</p>
+    </div>
+    
+    <form method="post">
+        <button type="submit" class="btn-pay">确认缴费</button>
+    </form>
+    
+    <a href="{{ url_for('record', plate_number=vehicle[1]) }}" class="btn-back">返回记录</a>
+{% endblock %}

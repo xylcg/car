@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}查询记录{% endblock %}
+
+{% block content %}
+    <h2>查询停车记录</h2>
+    
+    <form method="post" class="form">
+        <div class="form-group">
+            <label for="plate_number">车牌号:</label>
+            <input type="text" id="plate_number" name="plate_number" required>
+        </div>
+        
+        <button type="submit">查询</button>
+    </form>
+    
+    <a href="{{ url_for('index') }}" class="btn-back">返回首页</a>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}停车记录 - {{ vehicle[1] }}{% endblock %}
+
+{% block content %}
+    <h2>车辆信息</h2>
+    <div class="vehicle-info">
+        <p><strong>车牌号:</strong> {{ vehicle[1] }}</p>
+        <p><strong>车主姓名:</strong> {{ vehicle[2] }}</p>
+        <p><strong>联系电话:</strong> {{ vehicle[3] }}</p>
+        <p><strong>车辆类型:</strong> {{ vehicle[4] }}</p>
+        <p><strong>登记时间:</strong> {{ vehicle[5] }}</p>
+    </div>
+    
+    <h2>停车记录</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>入场时间</th>
+                <th>出场时间</th>
+                <th>停车时长(分钟)</th>
+                <th>费用(元)</th>
+                <th>缴费状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record[2] }}</td>
+                    <td>{{ record[3] if record[3] else '未出场' }}</td>
+                    <td>{{ record[4] if record[4] else '-' }}</td>
+                    <td>{{ record[5] if record[5] else '-' }}</td>
+                    <td>{{ '已缴费' if record[6] else '未缴费' }}</td>
+                    <td>
+                        {% if record[3] and not record[6] %}
+                            <a href="{{ url_for('payment', record_id=record[0]) }}" class="btn">缴费</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ url_for('index') }}" class="btn-back">返回首页</a>
+{% endblock %}

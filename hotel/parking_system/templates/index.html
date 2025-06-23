@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}首页{% endblock %}
+
+{% block content %}
+    <h2 class="welcome-text">欢迎使用停车位收费系统</h2>
+
+    <div class="actions">
+        <form action="{{ url_for('entry') }}" method="post" class="card entry-card">
+            <h3><i class="icon">🚗</i> 车辆入场</h3>
+            <div class="form-group">
+                <input type="text" name="plate_number" placeholder=" " required>
+                <label>请输入车牌号</label>
+            </div>
+            <button type="submit" class="btn-primary">确认入场</button>
+        </form>
+
+        <form action="{{ url_for('exit') }}" method="post" class="card exit-card">
+            <h3><i class="icon">🛑</i> 车辆出场</h3>
+            <div class="form-group">
+                <input type="text" name="plate_number" placeholder=" " required>
+                <label>请输入车牌号</label>
+            </div>
+            <button type="submit" class="btn-danger">确认出场</button>
+        </form>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card">
+            <h3>今日入场</h3>
+            <p class="count" id="today-entry">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>今日收费</h3>
+            <p class="count" id="today-income">¥0</p>
+        </div>
+        <div class="stat-card">
+            <h3>在场车辆</h3>
+            <p class="count" id="current-vehicles">0</p>
+        </div>
+    </div>
+
+    <script>
+        // 模拟统计数据动画
+        function animateValue(id, start, end, duration, prefix = '') {
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = prefix + value;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // 页面加载后执行动画
+        document.addEventListener('DOMContentLoaded', function() {
+            animateValue('today-entry', 0, 42, 2000);
+            animateValue('today-income', 0, 1265, 2000, '¥');
+            animateValue('current-vehicles', 0, 18, 2000);
+
+            // 为欢迎文本添加动画
+            const welcomeText = document.querySelector('.welcome-text');
+            welcomeText.style.animation = 'fadeIn 1s ease-out, pulse 2s ease-in-out 1s 2';
+        });
+    </script>
+{% endblock %}
